@@ -15,10 +15,17 @@ Implements IRC.CoreInterface
 	#tag Event
 		Sub DataAvailable()
 		  Dim data As String = Me.ReadAll
-		  If NthField(data, " ", 1) = "PING" Then
-		    Me.Write("PONG :" + Right(data, data.Len - 5) + EndOfLine.Windows)
-		  End If
-		  SendMessage(New IRCMessage(data))
+		  Dim s() As String = Split(data, EndOfLine.Windows)
+		  
+		  For i As Integer = 0 To UBound(s)
+		    Dim line As String = s(i)
+		    If line.Trim = "" Then Continue
+		    If NthField(line, " ", 1) = "PING" Then
+		      Me.Write("PONG :" + Right(line, line.Len - 5) + EndOfLine.Windows)
+		    Else
+		      SendMessage(New IRCMessage(line))
+		    End If
+		  Next
 		End Sub
 	#tag EndEvent
 
@@ -39,7 +46,7 @@ Implements IRC.CoreInterface
 		Sub HandleInboundMessage(Message As IRCMessage)
 		  // Part of the IRC.CoreInterface interface.
 		  Me.Write(Message.ToString)
-		  
+		  Me.Flush
 		End Sub
 	#tag EndMethod
 

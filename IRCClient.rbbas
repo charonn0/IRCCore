@@ -16,23 +16,29 @@ Protected Class IRCClient
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function Host() As HostMask
+		  If Core <> Nil Then Return Core.Host
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub MessageReceivedHandler(Sender As IRCCore, Message As IRCMessage)
 		  Select Case Message.command
 		  Case "001" //Welcome...
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "002" //Your host is...
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "003" //Server created on...
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "004" //Server info...
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "005" //Either server redirect info or depending on the ircd it could be a bunch of mode info
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "302" //RPL_USERHOST
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "303" //RPL_ISON
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "301" //User away msg
 		    Meta(Message)
 		  Case "305" //RPL_UNAWAY ":You are no longer marked as being away"
@@ -98,7 +104,7 @@ Protected Class IRCClient
 		  Case "367" //RPL_BANLIST "<channel> <banmask>"
 		    Meta(Message)
 		  Case "368" //RPL_ENDOFBANLIST "<channel> :End of channel ban list"
-		    Log(Message.ToString)
+		    Log(Message)
 		  Case "371" //RPL_INFO ":<string>"
 		    Meta(Message)
 		  Case "374" //RPL_ENDOFINFO ":End of INFO list"
@@ -345,7 +351,7 @@ Protected Class IRCClient
 		  Case "NOTICE" //Client to channel or to user messages
 		    PrivateMessage(Message)
 		  Else
-		    Log(Message.ToString)
+		    Log(Message)
 		  End Select
 		End Sub
 	#tag EndMethod
@@ -396,7 +402,7 @@ Protected Class IRCClient
 	#tag EndHook
 
 	#tag Hook, Flags = &h0
-		Event Log(Line As String)
+		Event Log(Message As IRCMessage)
 	#tag EndHook
 
 	#tag Hook, Flags = &h0

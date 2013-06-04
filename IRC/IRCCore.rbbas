@@ -14,6 +14,12 @@ Implements IRC.CoreInterface
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function Host() As HostMask
+		  Return Me.HostName
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Name() As IRC.HostMask
 		  Return Me.HostName
 		End Function
